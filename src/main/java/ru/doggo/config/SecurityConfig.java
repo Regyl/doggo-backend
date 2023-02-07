@@ -39,8 +39,10 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( auth -> auth
-                        .requestMatchers("/api/auth/token").hasRole("USER")
-                        .anyRequest().hasAnyAuthority("SCOPE_READ", "SCOPE_WRITE")
+//                        .requestMatchers("/api/auth/token").hasRole("USER")
+//                        .anyRequest().hasAnyAuthority("SCOPE_READ", "SCOPE_WRITE")
+
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
