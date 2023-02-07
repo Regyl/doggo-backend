@@ -21,7 +21,8 @@ public class DoggoBackendApplication {
         SpringApplication.run(DoggoBackendApplication.class, args);
     }
 
-    @Bean
+    //@Bean
+    // Uncomment to add some test data to database.
     CommandLineRunner commandLineRunner(PostRepository posts, UserRepository users) {
         return args -> {
             posts.save(new Post("Title1", "Description1", true, "Content1"));
