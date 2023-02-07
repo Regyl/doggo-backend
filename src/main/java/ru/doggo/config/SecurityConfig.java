@@ -28,28 +28,11 @@ import javax.crypto.spec.SecretKeySpec;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@EnableMethodSecurity
 @EnableWebSecurity
 public class SecurityConfig {
 
-//    private final JpaUserDetaisService jpaUserDetaisService;
-
     @Value("${jwt.key}")
     private String jwtKey;
-
-//    public SecurityConfig(JpaUserDetaisService jpaUserDetaisService) {
-//        this.jpaUserDetaisService = jpaUserDetaisService;
-//    }
-
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return new InMemoryUserDetailsManager(
-//                User.withUsername("user")
-//                        .password("{noop}password")
-//                        .authorities("READ","ROLE_USER")
-//                        .build());
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -57,9 +40,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( auth -> auth
                         .requestMatchers("/api/auth/token").hasRole("USER")
-                        .anyRequest().hasAuthority("SCOPE_READ")
+                        .anyRequest().hasAnyAuthority("SCOPE_READ", "SCOPE_WRITE")
                 )
-//                .userDetailsService(jpaUserDetaisService)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .httpBasic(withDefaults())

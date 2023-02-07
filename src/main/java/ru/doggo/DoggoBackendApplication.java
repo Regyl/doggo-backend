@@ -31,7 +31,7 @@ public class DoggoBackendApplication {
             posts.save(new Post("Title4", "Description4", true, "Content4"));
 
             users.save(new User("user", passwordEncoder.encode("password"), "READ,ROLE_USER"));
-            users.save(new User("admin", passwordEncoder.encode("password"), "READ,ROLE_USER,ROLE_ADMIN"));
+            users.save(new User("admin", passwordEncoder.encode("password"), "WRITE,ROLE_USER"));
         };
     }
 
