@@ -1,5 +1,8 @@
 package ru.doggo.service;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -14,13 +17,15 @@ import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@Deprecated
 public class TokenService {
 
     private final JwtEncoder encoder;
 
-    public TokenService(JwtEncoder encoder) {
-        this.encoder = encoder;
-    }
+    @Getter
+    @Value("{security.jwt.token-lifetime:68}")
+    private long tokenLifetimeInHours;
 
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
@@ -33,7 +38,7 @@ public class TokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(68, ChronoUnit.HOURS))
+                .expiresAt(now.plus(tokenLifetimeInHours, ChronoUnit.HOURS))
                 .subject(authentication.getName())
                 .claim("scope", scope)
                 .build();

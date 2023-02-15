@@ -1,6 +1,11 @@
 package ru.doggo.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
@@ -20,6 +25,9 @@ public class User {
 
     @Column
     private String roles;
+
+    @Column(unique = true)
+    private String refreshToken;
 
     public User(String username, String password, String roles) {
         this.username = username;

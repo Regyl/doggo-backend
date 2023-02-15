@@ -7,29 +7,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class SecurityUser implements UserDetails {
-
-    final private User user;
-
-    public SecurityUser(User user) {
-        this.user = user;
-    }
+public class SecurityUser extends User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.stream(user.getRoles().split(","))
+        return Arrays.stream(getRoles().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .toList();
-    }
-
-    @Override
-    public String getPassword() {
-        return user.getPassword();
-    }
-
-    @Override
-    public String getUsername() {
-        return user.getUsername();
     }
 
     @Override
